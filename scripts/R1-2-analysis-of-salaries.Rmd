@@ -19,33 +19,106 @@ notes on the source. This is best practice for keeping track of when and
 where you received data. But you only want to import the first tab into
 R for analysis.
 
-To do that, we need a new R package called `readxl`. This was installed
-in Introduction.Rmd, but in order to use the functions that are included
-in the package, you'll need to *import* it into this script using the
-library() function, along with `tidyverse`:
+### Part One: Installing Packages
+
+When you first install R on your computer it comes with a wide variety
+of functions that are collectively called "base R."
+
+Base R works just fine, and you'll often find that the base functions do
+what you want more clearly or efficiently than anything else. But to do
+the really cool stuff, you'll need to download additional packages. Each
+package comes with new verbs that extend base R and often provide
+shortcuts or additional actions.
+
+You can think of installing packages as adding new verbs to your
+vocabulary. Think of base R as giving you the verb "turn on." If you
+were to install a hypothetical "southernisms" package, you might get a
+verb called "cut on." Different verbs. Same action.
+
+In other cases, packages give you new verbs that do a bunch of things at
+once. For example, imagine a theoretical package called "PBJ" that has a
+function called `make_sandwich()` . In base R you might have to
+`get_bread()` and then `spread_pb()` and then `spread_jelly()`. It's
+much nicer to just `make_sandwich()`.
+
+The first package that we'll install is called tidyverse. Its really a
+package of packages that are used all ... the ... time. You can read
+more about the tidyverse and its core packages at
+<https://www.tidyverse.org/packages/>
+
+But for now, lets install it. Installing a package in R means
+downloading the code from a remote location on to your local computer.
+Most often, you are downloading packages from something called "CRAN,"
+which is "a network of ftp and web servers around the world that store
+identical, up-to-date, versions of code and documentation for R." You
+can also install packages from GitHub, but that's a story for a
+different class.
+
+To install a package that's on CRAN, we use the `install.packages()`
+function from base R. The argument is the name of the package as a
+string, contained inside quote marks.
 
 ```{r}
-#| label: setup
-#| warning: false
-#| message: false
-
-library(tidyverse)
-library(readxl)
+#install.packages("tidyverse")
 ```
 
-There are many functions available in `readxl`, the one you'll use now
-is read_excel(). This function has an optional argument called "sheet"
-which allows you to specify, numerically, which sheet or sheets you want
+When you run that, you will see some action down in your console. You
+can also verify that the package has been installed by going over to the
+"Packages" tab in R Studio.
+
+**You only need to install packages once.**
+
+Even though you only need to install a package once, you need to load it
+every time you start a new R session. To do that, we use the `library()`
+function.
+
+```{r}
+library(tidyverse)
+```
+
+To verify that the package has been correctly loaded into your library
+for the current R session, hop on over to the Packages tab in R Studio
+and make sure there's a check mark next to the name of the package you
+intended to load.
+
+If you're looking for a short-cut on installing packages, you can use
+the "Install" button in the "Packages" tab in R Studio. This is probably
+OK to use because you only need to install packages once. It's not code
+you need to run repeatedly.
+
+There's also a shortcut for loading packages into your library each
+session. You can just click or un-click the check box next to the
+package name in R Studio. But this isn't a good habit to get into. You
+typically want a code chunk at the top of your Rmd file that loads all
+the packages you need to run the rest of the work. That way you can just
+run the chunk each time. More importantly, it makes clear to other folks
+which packages they will need if they want to run your script on their
+computer.
+
+Finally, there's a useful shortcut for installing and loading packages.
+It's in the `pacman` package, and it's called `p_load()` .
+
+I like it for two reasons. It's an easy way to load multiple packages at
+once, and it installs any packages you haven't already downloaded on to
+your computer.
+
+```{r}
+#install.packages("pacman")
+
+```
+
+```{r}
+#pacman::p_load(tidyverse, readxl)
+```
+
+There are many functions available in `readxl`, the one you'll use now is read_excel(). This function has an optional argument called "sheet" which allows you to specify, numerically, which sheet or sheets you want
 to import. We want the first one:
 
 ```{r}
 read_excel("../data/salaries.xlsx", sheet=1)
 ```
 
-**Remember!** The results of any function - including read_excel() -
-either print to the console or save to a variable. If you want to refer
-to this data table later and pipe it into functions, you need to save it
-to a variable. Call it "salaries":
+**Remember!** The results of any function - including read_excel() - either print to the console or save to a variable. If you want to refer to this data table later and pipe it into functions, you need to save it to a variable. Call it "salaries":
 
 ```{r}
 salaries <- read_excel("../data/salaries.xlsx", sheet=1)
