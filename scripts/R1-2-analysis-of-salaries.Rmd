@@ -2,19 +2,22 @@
 title: "Finding the story in salaries data"
 author: "Liz Lucas, IRE"
 output: html_document
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 Now you'll put into practice the functions you've learned so far to
-interrogate some salary data from Bloomington, IN, that came from a
+interrogate some salary data from Bloomington, Indiana, that came from a
 records request. We have cleaned up the data a little for the purposes
 of this class, but left it in spreadsheet format, so shortly you'll
 learn how to import data from an Excel file (either .xls or .xlsx).
 
-First, open up Bloomington_Salaries.xlsx in Excel by double-clicking on
-the file in Finder. Note that it has two tabs: one with the data, an
-another with notes on the Source. This is best practice for keeping
-track of when and where you received data. But you only want to import
-the first tab into R for analysis.
+First, open up `salaries.xlsx` in Excel by double-clicking on the file
+in Finder. Note that it has two tabs: one with the data, an another with
+notes on the source. This is best practice for keeping track of when and
+where you received data. But you only want to import the first tab into
+R for analysis.
 
 To do that, we need a new R package called `readxl`. This was installed
 in Introduction.Rmd, but in order to use the functions that are included
@@ -70,16 +73,10 @@ Start with some basic questions:
 *Your turn!* How many employees in our data? (You may already know the
 answer to this, but write some code anyway!)
 
-
-
 *Your turn!* Who made the most in total compensation? Who made the
 least? (Hint: use arrange() to sort your data)
 
-
-
 *Your turn!* Who made the most in overtime/oncall pay?
-
-
 
 What do you see in the results? What questions does that spark for you,
 a journalist? What questions might you have for the city?
@@ -120,8 +117,6 @@ aggregate function: `na.rm=T`
 *Your turn!* What's the average and median salary for 2021? Hourly rate?
 (Note: both of these have NAs, so code accordingly)
 
-
-
 # Getting to know your data
 
 There's a very useful function in tidyverse for assessing what's in a
@@ -152,8 +147,6 @@ salaries %>%
 *Your turn!* Try using the count() function on department. How clean are
 the department names?
 
-
-
 Let's see if any employees are in here more than once. We wouldn't
 expect them to be since each row is one employee. We'll count the last
 name and first name to see how often each unique combination shows up,
@@ -168,8 +161,6 @@ salaries %>%
 *Your turn!* Use the filter() to look at the rows for Emily Herr. What
 can we learn about her work. Does it make sense that she's in here
 twice, or is this potentially an error in the data?
-
-
 
 # Asking questions
 
@@ -190,8 +181,6 @@ salaries %>%
 
 *Your turn!* Calculate the average compensation for each job title
 within the Police department:
-
-
 
 How does the average police compensation compare to other departments?
 Calculate the average compensation by department, using group_by():
@@ -228,8 +217,6 @@ each job title, calculate the following:
 
 Arrange your results by the job title that has the highest average
 compensation.
-
-
 
 Let's add one more layer to this. It makes sense that there are some
 jobs held by one person that pay a lot (ie. mayor, chief) so let's
@@ -272,8 +259,6 @@ directors <- salaries %>% filter(grepl("Director", job_title))
 *Your turn!* Which department pays the highest average salary to people
 with director in their job title?
 
-
-
 *Your turn!* Let's return to the original salaries data frame. Use
 filter and grepl to find all the people who work in the various
 Utilities departments. (If you need to refresh your memory, click on the
@@ -281,34 +266,21 @@ word "salaries" in your Environment (upper right).) Once you've
 successfully run this code, store these employees to their own data
 frame called **utilities**.
 
-
-
-
 *Your turn!* Which job in the various Utilities department pays the
 best? (This question is intentionally vague! Think about the various
 calculations you can do and pick one -- or multiple -- to try to come up
 with a conclusion.)
-
-
 
 # Extra practice!
 
 1.  What do people with the word 'Specialist' in their job title make in
     total compensation, on average?
 
-
-
 2.  What do interns make?
-
-
 
 3.  Which department paid out the most in overtime/on-call pay?
 
-
-
 4.  Which department has the most employees paid hourly?
-
-
 
 5.  For police employees, find the percent of their total compensation
     comes from overtime for each employee.
@@ -316,7 +288,5 @@ with a conclusion.)
     Do this in two steps: First, create a data frame called police of
     just employees who work for the police department. If you do this
     correctly, you will see police show up in your Environment sidebar.
-    Then, using this new police dataframe, you will use mutate() to add
+    Then, using this new police data frame, you will use mutate() to add
     a column and do a percent of total calculation.
-
-

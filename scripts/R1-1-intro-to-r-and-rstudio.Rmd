@@ -38,7 +38,7 @@ Before you start creating files, let's talk organization. With a language like R
 
 1.  **Create a folder for the project.** Name it something that makes sense, with no spaces, such as "my-project" (but be more specific than that). Put it somewhere on your computer, such as the Documents folder. It's best not to put it in your root directory, which is `/Users/username` for Macs and usually `C:\Users\username` on Windows computers. If you have OneDrive on your computer, avoid putting these files on OneDrive if at all possible; it tends not to work well.
 2.  **Create an R project file**. Go to File \> New Project, and in the window that pops up choose "Existing Directory" (because you just created it. Remember, directory basically means folder). Click "Browse" and navigate to the folder you just created. Then click "Create Project." RStudio will then reload. Notice that your folder name now shows up in the very upper right-hand corner of RStudio ![](images/project.png){width="96"} . Also, your Files window (bottom right) has now changed to your project folder. You'll see the .Rproj file you just created.
-3.  Every time you plan to work on this project, havigate to your project folder through Finder (Macs) or Windows Explorer (Windows) and start by double-clicking on the .Rproj file, which will open up RStudio. This .Rproj file sets your **current working directory**, which is the folder on your computer where R is pointed. By default it is pointed at your root directory, but each .Rproj file changes the working directory to your project folder. This makes your life a lot easier as you read in data.
+3.  Every time you plan to work on this project, navigate to your project folder through Finder (Macs) or Windows Explorer (Windows) and start by double-clicking on the .Rproj file, which will open up RStudio. This .Rproj file sets your **current working directory**, which is the folder on your computer where R is pointed. By default it is pointed at your root directory, but each .Rproj file changes the working directory to your project folder. This makes your life a lot easier as you read in data.
 
 ### Part Three: Learning terminology
 
@@ -63,7 +63,7 @@ y <- 3
 Naming variables: you can use letters, numbers, underscores and dots
 
 | Variable Name | Validity | Reason                                                    |
-|-------------------|-------------------|-----------------------------------|
+|-------------------|-------------------|----------------------------------|
 | var_name2.    | valid    | has letters, numbers, underscore, dot                     |
 | .var_name     | valid    | can start with a dot (but not a dot followed by a number) |
 | var_name%     | invalid  | has the character '%' (not allowed)                       |
