@@ -1,118 +1,92 @@
 ---
 title: "Finding the story in salaries data"
-author: "Liz Lucas, IRE"
+author: "Liz Lucas @ IRE, Ryan Thornburg"
 output: html_document
-editor_options: 
-  markdown: 
-    wrap: 72
 ---
 
-Now you'll put into practice the functions you've learned so far to
-interrogate some salary data from Bloomington, Indiana, that came from a
-records request. We have cleaned up the data a little for the purposes
-of this class, but left it in spreadsheet format, so shortly you'll
+Now you'll put into practice the functions you've learned so far to interrogate some salary data from Bloomington, Indiana, that came from a records request. We have cleaned up the data a little for the purposes of this class, but left it in spreadsheet format, so shortly you'll
 learn how to import data from an Excel file (either .xls or .xlsx).
 
-First, open up `salaries.xlsx` in Excel by double-clicking on the file
-in Finder. Note that it has two tabs: one with the data, an another with
-notes on the source. This is best practice for keeping track of when and
-where you received data. But you only want to import the first tab into
-R for analysis.
+First, open up `salaries.xlsx` in Excel by double-clicking on the file in Finder. Note that it has two tabs: one with the data, an another with notes on the source. This is best practice for keeping track of when and where you received data. But you only want to import the first tab into R for analysis.
 
 ### Part One: Installing Packages
 
-When you first install R on your computer it comes with a wide variety
-of functions that are collectively called "base R."
+When you first install R on your computer it comes with a wide variety of functions that are collectively called "base R."
 
-Base R works just fine, and you'll often find that the base functions do
-what you want more clearly or efficiently than anything else. But to do
-the really cool stuff, you'll need to download additional packages. Each
-package comes with new verbs that extend base R and often provide
-shortcuts or additional actions.
+Base R works just fine, and you'll often find that the base functions do what you want more clearly or efficiently than anything else. But to do the really cool stuff, you'll need to download additional packages. Each package comes with new verbs that extend base R and often provide shortcuts or additional actions.
 
-You can think of installing packages as adding new verbs to your
-vocabulary. Think of base R as giving you the verb "turn on." If you
-were to install a hypothetical "southernisms" package, you might get a
-verb called "cut on." Different verbs. Same action.
+You can think of installing packages as adding new verbs to your vocabulary. Think of base R as giving you the verb "turn on." If you were to install a hypothetical "southernisms" package, you might get a verb called "cut on." Different verbs. Same action.
 
-In other cases, packages give you new verbs that do a bunch of things at
-once. For example, imagine a theoretical package called "PBJ" that has a
-function called `make_sandwich()` . In base R you might have to
-`get_bread()` and then `spread_pb()` and then `spread_jelly()`. It's
-much nicer to just `make_sandwich()`.
+In other cases, packages give you new verbs that do a bunch of things at once. For example, imagine a theoretical package called "PBJ" that has a function called `make_sandwich()` . In base R you might have to `get_bread()` and then `spread_pb()` and then `spread_jelly()`. It's much nicer to just `make_sandwich()`.
 
-The first package that we'll install is called tidyverse. Its really a
-package of packages that are used all ... the ... time. You can read
-more about the tidyverse and its core packages at
-<https://www.tidyverse.org/packages/>
+The first package that we'll install is called tidyverse. Its really a package of packages that are used all ... the ... time. You can read more about the tidyverse and its core packages at <https://www.tidyverse.org/packages/>
 
-But for now, lets install it. Installing a package in R means
-downloading the code from a remote location on to your local computer.
-Most often, you are downloading packages from something called "CRAN,"
-which is "a network of ftp and web servers around the world that store
-identical, up-to-date, versions of code and documentation for R." You
-can also install packages from GitHub, but that's a story for a
-different class.
+Installing a package in R means downloading the code from a remote location on to your local computer. Most often, you are downloading packages from something called "CRAN," which is "a network of ftp and web servers around the world that store identical, up-to-date, versions of code and documentation for R." You can also install packages from GitHub, but that's a story for a different class.
 
-To install a package that's on CRAN, we use the `install.packages()`
-function from base R. The argument is the name of the package as a
-string, contained inside quote marks.
+To install a package that's on CRAN, we use the `install.packages()` function from base R. The argument is the name of the package as a string, contained inside quote marks.
+
+I've commented out this line because IRE has already downloaded the packages on to the conference machines. 
 
 ```{r}
 #install.packages("tidyverse")
 ```
 
-When you run that, you will see some action down in your console. You
-can also verify that the package has been installed by going over to the
-"Packages" tab in R Studio.
+When you run that, you will see some action down in your console. You can also verify that the package has been installed by going over to the "Packages" tab in R Studio.
 
-**You only need to install packages once.**
+**You only need to install packages once per computer.**
 
-Even though you only need to install a package once, you need to load it
-every time you start a new R session. To do that, we use the `library()`
-function.
+Even though you only need to install a package once, you need to load it every time you start a new R session. To do that, we use the `library()` function.
 
 ```{r}
 library(tidyverse)
 ```
 
-To verify that the package has been correctly loaded into your library
-for the current R session, hop on over to the Packages tab in R Studio
-and make sure there's a check mark next to the name of the package you
-intended to load.
+To verify that the package has been correctly loaded into your library for the current R session, hop on over to the Packages tab in R Studio and make sure there's a check mark next to the name of the package you intended to load.
 
-If you're looking for a short-cut on installing packages, you can use
-the "Install" button in the "Packages" tab in R Studio. This is probably
-OK to use because you only need to install packages once. It's not code
-you need to run repeatedly.
+If you're looking for a short-cut on installing packages, you can use the "Install" button in the "Packages" tab in R Studio. This is probably OK to use because you only need to install packages once. It's not code you need to run repeatedly.
 
-There's also a shortcut for loading packages into your library each
-session. You can just click or un-click the check box next to the
-package name in R Studio. But this isn't a good habit to get into. You
-typically want a code chunk at the top of your Rmd file that loads all
-the packages you need to run the rest of the work. That way you can just
-run the chunk each time. More importantly, it makes clear to other folks
-which packages they will need if they want to run your script on their
-computer.
+There's also a shortcut for loading packages into your library each session. You can just click or un-click the check box next to the package name in R Studio. But this isn't a good habit to get into. You typically want a code chunk at the top of your Rmd file that loads all the packages you need to run the rest of the work. That way you can just run the chunk each time. More importantly, it makes clear to other folks which packages they will need if they want to run your script on their computer.
 
-Finally, there's a useful shortcut for installing and loading packages.
-It's in the `pacman` package, and it's called `p_load()` .
+Finally, there's a useful shortcut for installing and loading packages. It's in the `pacman` package, and it's called `p_load()` .
 
-I like it for two reasons. It's an easy way to load multiple packages at
-once, and it installs any packages you haven't already downloaded on to
-your computer.
+I like it for two reasons. It's an easy way to load multiple packages at once, and it installs any packages you haven't already downloaded on to your computer.
 
 ```{r}
 #install.packages("pacman")
-
 ```
 
 ```{r}
-#pacman::p_load(tidyverse, readxl)
+pacman::p_load(tidyverse, readxl)
 ```
 
-There are many functions available in `readxl`, the one you'll use now is read_excel(). This function has an optional argument called "sheet" which allows you to specify, numerically, which sheet or sheets you want
-to import. We want the first one:
+### Part Two: Loading Data
+
+#### Loading CSV files
+Base R has a function called `read.csv()` that is used to -- you guessed it -- read a csv file into R. But we're going to use a very similarly named -- but better -- function from the tidyverse called `read_csv()`. While only one character differentiates these two functions, and while they both have the same end goal, these two functions work very differently. If you google a solution that uses read.csv, it may not work if you're using read_csv.
+
+Let's first use base R.
+```{r}
+teammentions_base_R <- read.csv("../data/teammentions.csv",
+                              header = TRUE, 
+                              sep=",",
+                              quote = "\""
+                              )
+```
+
+Here's the tidyverse way of doing the same thing.
+
+```{r}
+teammentions <- read_csv("../data/teammentions.csv", 
+    col_types = cols(
+      DATE = col_datetime(
+               format = "%m/%d/%Y %H:%M")
+      )
+    )
+```
+One advantage of using the tidyverse method is that you can ensure that date columns are correctly read in as dates rather than character strings. So why the error? Three of the rows didn't have hours and minutes, which the formatting argument was expecting.
+
+#### Loading Excel Spreadsheets
+There are many functions available in `readxl`, the one you'll use now is read_excel(). This function has an optional argument called "sheet," which allows you to specify, numerically, which sheet or sheets you want to import. We want the first one:
 
 ```{r}
 read_excel("../data/salaries.xlsx", sheet=1)
@@ -124,58 +98,153 @@ read_excel("../data/salaries.xlsx", sheet=1)
 salaries <- read_excel("../data/salaries.xlsx", sheet=1)
 ```
 
-Take a look at the salaries data: click on the word "salaries" in your
-Environment (upper right). Take a minute or two to look at the data:
-What is one row of data? (One employee) What columns of information do
-you have?
+But remember what we said about naming variables and objects? Those last four are going to make your life miserable. 
 
-We can use a function called `str()` to see the structure of our data
-table.
+We can use a function called `clean_names()` from the very useful `janitor` package to make a nice fix.
+```{r}
+#install.packages("janitor")
+salaries_clean_names <- janitor::clean_names(salaries)
+```
+
+You can fix that last column name with the `rename()` function from the tidyverse.
+```{r}
+salaries_clean_names <- salaries_clean_names %>%
+  rename("salary_2021" = "x2021_salary")
+```
+
+And if you like it you can go ahead and overwrite the original data frame and delete the old one by using the broom icon in R Studio's Environment tab.
+```{r}
+salaries <- salaries_clean_names
+```
+
+
+#### Two cheats
+Loading data has two short cuts that are similar to those we used for installing and loading packages.
+
+First, we can use the "Import Dataset" button in the "Environment" tab of R Studio. This is a nice way to get started learning some of the nuances of loading data because it visually walks you thorugh options and then generates code you can cut and paste into your Rmd file. However, you always want to make sure that the code you need to load the data is included in your Rmd. Omitting it can cause all sorts of problems for other users of your code as well as future you.
+
+There is also a coding short cut that uses the `import()` function from the `rio` package.The advantage of this function is that it's the same whether you're pulling in a csv file, an Excel spreadsheet or 34 other data types.
+
+In this example, we import only the first of the .txt files.
+```{r}
+#install.packages("rio")
+baby_names_2010 <- rio::import("https://www.ssa.gov/oact/babynames/names.zip", which = "yob2010.txt")
+```
+
+Or we can import all of them and "bind" the rows from each file into a single data frame:
+```{r}
+baby_names_all <- rio::import_list("https://www.ssa.gov/oact/babynames/names.zip", rbind = TRUE)
+```
+
+Sometimes you need to add column names. This is a case in which base R may be more efficient than the tidyverse method.
+```{r}
+#tidyverse method
+baby_names_2010 <- baby_names_2010 %>%
+  rename("name" ="V1",
+         "sex" = "V2",
+         "babies" = "V3")
+```
+
+```{r}
+#base R method
+colnames(baby_names_all) <- c("name", "sex", "babies", "year")
+```
+
+
+### Part Three: Taking Your Data Out to Coffee
+
+Later, you're going to learn how to really interview your data. But just like human sources, it's good just to get to know them first before you need to interview them for a story.
+
+**Before you interview your data, you want to take it out for coffee.**
+
+When you take your data out for coffee, you're trying to assess two things:
+
+1.  What does your data know and what does it not know?
+
+2.  What might it try to mislead you about?
+
+Take a look at the salaries data: click on the word "salaries" in your Environment (upper right). Take a minute or two to look at the data:
+- What is one row of data? (One employee) 
+- What columns of information do you have?
+
+We can also use functions to get to know our data.
+
+-   `str()` – tells you the length and width of the data table as well as the data type for each column
+
+-   `summary()` – in addition to telling you the data type for each column, for numerical columns it will provide some summary statistics and tell you how many `NA` values you have
+
+-   `Hmisc::describe()` - adds percentiles for numerical data, and also tells provides the number of unique values for text columns, and also provides summary statistics for date columns
+
+-   `skimr::skim()` - for numerical values, provides a histogram so you can roughly see if the data skews one way or the other
 
 ```{r}
 str(salaries)
 ```
 
-Note that there are NAs in the overtime_oncall, hourly_rate, and
-salary_2021 columns. NAs are *NULL* values, not blanks.
+```{r}
+summary(salaries)
+```
 
-# Practice
+```{r}
+#install.packages("Hmisc")
+Hmisc::describe(salaries)
+```
+
+```{r}
+#install.packages("skimr")
+skim <- skimr::skim(salaries)
+View(skim)
+```
+
+Note that there are NAs in the overtime_oncall, hourly_rate, and salary_2021 columns. NAs are *NULL* values, not blanks.
+
+#### Your turn
 
 Start with some basic questions:
 
-*Your turn!* How many employees in our data? (You may already know the
-answer to this, but write some code anyway!)
+-   How many employees in our data?
 
-*Your turn!* Who made the most in total compensation? Who made the
-least? (Hint: use arrange() to sort your data)
+-   What was the highest total compensation?
 
-*Your turn!* Who made the most in overtime/oncall pay?
+-   How many distinct job titles are we dealing with?
 
-What do you see in the results? What questions does that spark for you,
-a journalist? What questions might you have for the city?
+-   How much does an employee have to make to be in the top 10 percent of salaries?
 
-What is the total payroll for the city? Reminder: when you're no longer
-asking questions with regard to specific employees, your unit of
-analysis has changed. If you want to look at payroll for the whole city,
-you need to do some aggregating. In this case, we want to sum up payroll
-for the entire data set:
+-   What percentage of the city's staff is salaried?
 
-```{r}
-salaries %>% 
-  summarise(total_payroll = sum(total_comp))
-```
+-   What's the median number of weekly hours worked?
 
-What is the total overtime/oncall pay?
+### Part Four: Summarising Columns
+
+That's right. I spelled summarise with an "s" instead of a "z". And so should you. The person who developed the tidyverse is from New Zeland. And while he kindly allows both `summarise()` and `summarize()` to work, you will find that the American spelling of the word conflicts with other functions in other packages. (The Hmisc package has a summarize() function.)
 
 ```{r}
-salaries %>% 
-  summarise(total_payroll = sum(overtime_oncall))
+#Hey R, start with the salaries data frame... 
+salaries %>% # ... and then ... 
+  #... add up all the values in the total_comp column and print that value under a column header called citywide_payroll.
+  summarise(citywide_payroll = sum(total_comp))
 ```
 
-Here's where NAs (NULLs) will trip you up. If you sum a column with NAs
-in it, R will return an NA. So you need to exclude the NAs in your
-summing. Thankfully there is an EASY way to do this; the sum() function
-will take an additional argument: `na.rm=T`, which means remove NAs.
+#### Your turn
+
+-   What's the median salary?
+
+```{r}
+____________
+  _________(median_salary ____________________)
+  
+# You should get $37,750.26.  
+```
+
+-   How much did the city spend on overtime/oncall pay?
+
+```{r}
+
+
+```
+
+Here's where NAs (NULLs) will trip you up. If you sum a column with NAs in it, R will return an NA. So you need to exclude the NAs in your summing. Thankfully there is an EASY way to do this; the sum() function will take an additional argument: `na.rm=T`, which means remove NAs.
+
 Adding it looks like this:
 
 ```{r}
@@ -183,183 +252,10 @@ salaries %>%
   summarise(total_payroll = sum(overtime_oncall, na.rm=T))
 ```
 
-That's why it's important to take note of NAs in your data! Anytime you
-want to sum a column with NAs, you need to include this argument in the
-aggregate function: `na.rm=T`
+That's why it's important to take note of NAs in your data! Anytime you want to sum a column with NAs, you need to include this argument in the aggregate function: `na.rm=T`
 
-*Your turn!* What's the average and median salary for 2021? Hourly rate?
-(Note: both of these have NAs, so code accordingly)
-
-# Getting to know your data
-
-There's a very useful function in tidyverse for assessing what's in a
-particular column. For example, if you are familiar with SQL, this is
-the equivalent of the "golden query." If you regularly use spreadsheets,
-this is the equivalent of putting a column in the Rows box and
-calculating the count() function on each group.
-
-This function happens to be called count(). Try it out on the job_title
-column:
+-   What's the average and median salary for 2021? Hourly rate? (Note: both of these have NAs, so code accordingly)
 
 ```{r}
-salaries %>% 
-  count(job_title)
+
 ```
-
-You see a list of all unique job titles and how many times each value
-appears in the data (i.e. how many rows have that value in the job_title
-column). The count() function automatically labels the values column
-`n`. Re-sort the results to see which job titles are the most common:
-
-```{r}
-salaries %>% 
-  count(job_title) %>% 
-  arrange(desc(n))
-```
-
-*Your turn!* Try using the count() function on department. How clean are
-the department names?
-
-Let's see if any employees are in here more than once. We wouldn't
-expect them to be since each row is one employee. We'll count the last
-name and first name to see how often each unique combination shows up,
-and then arrange our results by the descending count.
-
-```{r}
-salaries %>% 
-  count(last_name, first_name) %>% 
-  arrange(desc(n))
-```
-
-*Your turn!* Use the filter() to look at the rows for Emily Herr. What
-can we learn about her work. Does it make sense that she's in here
-twice, or is this potentially an error in the data?
-
-# Asking questions
-
-How many people work for the police department?
-
-```{r}
-salaries %>% 
-  filter(department == "Police")
-```
-
-What's the average total compensation for a police employee?
-
-```{r}
-salaries %>% 
-  filter(department == "Police") %>% 
-  summarise(avg_pay = mean(total_comp))
-```
-
-*Your turn!* Calculate the average compensation for each job title
-within the Police department:
-
-How does the average police compensation compare to other departments?
-Calculate the average compensation by department, using group_by():
-
-```{r}
-salaries %>% 
-  group_by(department) %>% 
-  summarise(avg_comp = mean(total_comp)) %>% 
-  arrange(desc(avg_comp))
-```
-
-Just like a pivot table in Excel, we can add more calculations to this
-to give us more context. Right now we're look at the **average
-compensation** by department. Let's add two more columns: **total
-compensation** by department and the **number of employees** in each
-department.
-
-```{r}
-salaries %>% 
-  group_by(department) %>% 
-  summarise(avg_comp = mean(total_comp),
-            total_comp = sum(total_comp),
-            num_employees = n())
-```
-
-*Your turn!* Let's find the same calculations for the job titles. For
-each job title, calculate the following:
-
--   Average compensation
-
--   Total compensation
-
--   Number of people with that job title
-
-Arrange your results by the job title that has the highest average
-compensation.
-
-Let's add one more layer to this. It makes sense that there are some
-jobs held by one person that pay a lot (ie. mayor, chief) so let's
-filter our results to only show us [jobs held by at least 10
-people]{.underline}. We can do this by filtering after we do our
-calculations.
-
-```{r}
-salaries %>% 
-  group_by(job_title) %>% 
-  summarise(avg_comp = mean(total_comp),
-            total_comp = sum(total_comp),
-            num_employees = n()) %>% 
-  filter(num_employees > 10)
-```
-
-Let's dig into the job titles a bit. So far we have only looked at exact
-matches, but text fields can have some (or a lot of) variation in them.
-For example, lots of jobs could have the word 'Director' in them.
-
-If we wanted to find every job title with that word in it, we can use a
-function called `grepl()` ***INSIDE*** our `filter()` function. This
-performs a wildcard match.
-
-```{r}
-salaries %>% 
-  filter(grepl("Director", job_title))
-```
-
-In this example, we can see we have 41 employees with the word
-'Director' in their job title. (Remember, R is case sensitive!)
-
-We'll store these directors to their own data frame so we can run more
-queries against them.
-
-```{r}
-directors <- salaries %>% filter(grepl("Director", job_title))
-```
-
-*Your turn!* Which department pays the highest average salary to people
-with director in their job title?
-
-*Your turn!* Let's return to the original salaries data frame. Use
-filter and grepl to find all the people who work in the various
-Utilities departments. (If you need to refresh your memory, click on the
-word "salaries" in your Environment (upper right).) Once you've
-successfully run this code, store these employees to their own data
-frame called **utilities**.
-
-*Your turn!* Which job in the various Utilities department pays the
-best? (This question is intentionally vague! Think about the various
-calculations you can do and pick one -- or multiple -- to try to come up
-with a conclusion.)
-
-# Extra practice!
-
-1.  What do people with the word 'Specialist' in their job title make in
-    total compensation, on average?
-
-2.  What do interns make?
-
-3.  Which department paid out the most in overtime/on-call pay?
-
-4.  Which department has the most employees paid hourly?
-
-5.  For police employees, find the percent of their total compensation
-    comes from overtime for each employee.
-
-    Do this in two steps: First, create a data frame called police of
-    just employees who work for the police department. If you do this
-    correctly, you will see police show up in your Environment sidebar.
-    Then, using this new police data frame, you will use mutate() to add
-    a column and do a percent of total calculation.
